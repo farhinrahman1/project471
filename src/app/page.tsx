@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   SelectTrigger,
   SelectValue,
@@ -89,7 +90,7 @@ export default function Home() {
             }}
           />
           <button
-            className="bg-gray-900 text-white hover:bg-gray-950 p-2 rounded-md"
+            className="bg-slate-900 text-white rounded-md p-2 px-4 hover:bg-slate-800"
             type="submit"
           >
             Submit
