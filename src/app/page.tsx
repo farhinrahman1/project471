@@ -1,128 +1,101 @@
 "use client";
+import { FormProvider, useFormContext } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as zod from "zod";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import {
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { Select } from "@radix-ui/react-select";
 
-type FormData = {
-  fullName: string;
-  email: string;
-  message: string;
-};
+const formSchema = zod.object({
+  emailAddress: zod.string().email(),
+  message: zod.string().min(20),
+});
 
-export default function ContactUs() {
-  const [formData, setFormData] = useState<FormData>({
-    fullName: "",
-    email: "",
-    message: "",
+export default function Home() {
+  const form = useForm<zod.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      emailAddress: "",
+      message: "",
+    },
   });
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (res.ok) {
-      // Handle success (e.g., show a success message)
-    } else {
-      // Handle error
-    }
+  const handleSubmit = (values: zod.infer<typeof formSchema>) => {
+    console.log({ values });
   };
 
   return (
-    <div style={styles.container}>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <h2>Contact Us</h2>
-        <input
-          type="text"
-          name="fullName"
-          placeholder="Full Name"
-          value={formData.fullName}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <textarea
-          name="message"
-          placeholder="Your Message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-          style={styles.textarea}
-        />
-        <button type="submit" style={styles.button}>
-          Submit
-        </button>
-      </form>
-    </div>
+    <main className="flex min-h-screen bg-slate-900 flex-col items-center justify-center gap-y-3 h-full">
+      <h1 className="text-white font-bold font-sans text-2xl ">Contact Us</h1>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="max-w-80 w-full gap-y-4 flex flex-col  items-center justify-center p-4 bg-white shadow-xl shadow-black rounded-md"
+        >
+          <FormField
+            control={form.control}
+            name="emailAddress"
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Email Address</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Email Address"
+                      type="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage></FormMessage>
+                </FormItem>
+              );
+            }}
+          />
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormLabel>Message</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Message"
+                      rows={5}
+                      {...field}
+                    ></Textarea>
+                  </FormControl>
+                  <FormMessage></FormMessage>
+                </FormItem>
+              );
+            }}
+          />
+          <button
+            className="bg-gray-900 text-white hover:bg-gray-950 p-2 rounded-md"
+            type="submit"
+          >
+            Submit
+          </button>
+        </form>
+      </Form>
+    </main>
   );
 }
-
-const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    backgroundColor: "#151515", // Dark background
-  },
-  form: {
-    backgroundColor: "#fff", // White background for the form
-    padding: "20px",
-    borderRadius: "8px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    width: "100%",
-    maxWidth: "400px",
-    textAlign: "center",
-    font: "20px Arial, sans-serif",
-  },
-  input: {
-    width: "100%",
-    padding: "10px",
-    margin: "10px 0",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    fontSize: "15px",
-  },
-  textarea: {
-    width: "100%",
-    padding: "10px",
-    margin: "10px 0",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    fontSize: "15px",
-    minHeight: "100px",
-  },
-  button: {
-    width: "100%",
-    padding: "10px",
-    backgroundColor: "#000000", // Black button
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
-    fontSize: "16px",
-    cursor: "pointer",
-  },
-};
