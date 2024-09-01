@@ -7,9 +7,6 @@ import { ShoppingCart, Heart, Store, Menu } from "lucide-react";
 const Page = () => {
   const [cartItems, setCartItems] = useState([]);
 
-  const TAX_RATE = 0.05;
-  const DELIVERY_CHARGE = 5.0;
-
   const handleCartOpen = () => {
     console.log("Cart Sheet is opened!");
   };
@@ -64,8 +61,6 @@ const Page = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  const tax = subtotal * TAX_RATE;
-  const total = subtotal + tax + DELIVERY_CHARGE;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -95,59 +90,65 @@ const Page = () => {
           </SheetTrigger>
           <SheetContent position="bottom">
             <div className="p-4 text-center">
-              <ShoppingCart className="h-12 w-12 mx-auto mb-4" />
               {cartItemCount === 0 ? (
                 <p className="text-lg font-semibold">Your Cart is Empty</p>
               ) : (
                 <div>
-                  <p className="text-lg font-semibold">Your Cart</p>
+                  <p className="text-2xl font-semibold flex flex-row">
+                    Your Cart
+                  </p>
                   <ul className="mt-4 space-y-4">
                     {cartItems.map((item, index) => (
                       <li
                         key={index}
-                        className="flex items-start gap-4 border-b border-gray-200 pb-4"
+                        className="flex flex-col gap-4 border-b border-gray-200 pb-4"
                       >
-                        <img
-                          src="https://cdn.pixabay.com/photo/2013/07/13/14/07/apparel-162180_960_720.png" // Replace with actual image URL
-                          alt={item.name}
-                          className="h-20 w-20 object-cover rounded-md"
-                        />
-                        <div className="flex-1">
-                          <h3 className="text-lg font-semibold">{item.name}</h3>
-                          <p className="text-sm text-gray-600">ID: {item.id}</p>
-                          <p className="text-sm text-gray-600">
-                            Price: ${item.price.toFixed(2)}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <button
-                            className="bg-gray-200 p-1 rounded-md"
-                            onClick={() => handleDecreaseQuantity(index)}
-                          >
-                            -
-                          </button>
-                          <span>{item.quantity}</span>
-                          <button
-                            className="bg-gray-200 p-1 rounded-md"
-                            onClick={() => handleIncreaseQuantity(index)}
-                          >
-                            +
-                          </button>
-                          <p className="font-bold">
-                            ${(item.price * item.quantity).toFixed(2)}
-                          </p>
+                        <div className="flex items-center justify-between w-full">
+                          <div className="flex items-center gap-4 flex-1">
+                            <img
+                              src="https://cdn.pixabay.com/photo/2013/07/13/14/07/apparel-162180_960_720.png" // Replace with actual image URL
+                              alt={item.name}
+                              className="h-20 w-[42%] object-cover rounded-md"
+                            />
+                            <div className="flex flex-col">
+                              <h3 className="text-sm font-semibold">
+                                {item.name}
+                              </h3>
+                              <p className="text-xs text-gray-700">
+                                ID: {item.id}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center  gap-2">
+                            <button
+                              className="bg-gray-200 p-[4%] rounded-md"
+                              onClick={() => handleDecreaseQuantity(index)}
+                            >
+                              -
+                            </button>
+                            <span>{item.quantity}</span>
+                            <button
+                              className="bg-gray-200 p-[4%] rounded-md"
+                              onClick={() => handleIncreaseQuantity(index)}
+                            >
+                              +
+                            </button>
+                            <p className="font-semibold text-sm">
+                              ${(item.price * item.quantity).toFixed(2)}
+                            </p>
+                          </div>
                         </div>
                       </li>
                     ))}
                   </ul>
+
                   <div className="mt-4 text-left">
-                    <p>Subtotal: ${subtotal.toFixed(2)}</p>
-                    <p>Tax (5%): ${tax.toFixed(2)}</p>
-                    <p>Delivery Charge: ${DELIVERY_CHARGE.toFixed(2)}</p>
-                    <p className="font-bold">Total: ${total.toFixed(2)}</p>
+                    <p className="font-semibold">
+                      Subtotal: ${subtotal.toFixed(2)}
+                    </p>
                   </div>
                   <button
-                    className="btn mt-4 bg-green-600 px-4 p-2 rounded-md text-white w-full"
+                    className="btn mt-4 bg-slate-900 px-4 p-2 rounded-md text-white w-40"
                     onClick={() => console.log("Proceed to checkout")}
                   >
                     Checkout
@@ -155,7 +156,7 @@ const Page = () => {
                 </div>
               )}
               <button
-                className="btn mt-4 bg-slate-900 px-4 p-2 rounded-md text-white"
+                className="btn mt-4 bg-white font-bold border border-black hover:bg-slate-200 px-4 p-2 rounded-md text-black w-40"
                 onClick={handleReturnToShop}
               >
                 Return to Shop
