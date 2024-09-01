@@ -1,116 +1,95 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+import { ShoppingCart, Heart, Store, Menu } from "lucide-react"; // Icons for Shop, Wishlist, Cart, and Menu
 
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-};
+const Page = () => {
+  const [cartItems, setCartItems] = useState([]);
 
-export default function Cart() {
-  const [cart, setCart] = useState<Product[]>([
-    { id: 1, name: "Bag", price: 50, quantity: 1 },
-    { id: 2, name: "Oven", price: 200, quantity: 1 },
-    { id: 3, name: "Watch", price: 100, quantity: 1 },
-    { id: 4, name: "Clothes", price: 75, quantity: 1 },
-  ]);
-
-  const increaseQuantity = (productId: number) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+  const handleCartOpen = () => {
+    console.log("Cart Sheet is opened!");
   };
 
-  const decreaseQuantity = (productId: number) => {
-    setCart((prevCart) =>
-      prevCart
-        .map((item) =>
-          item.id === productId && item.quantity > 1
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
+  const handleReturnToShop = () => {
+    console.log("Returning to shop...");
   };
-
-  const removeProduct = (productId: number) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
-  };
-
-  const getTotalAmount = () => {
-    return cart.reduce(
-      (total, product) => total + product.price * product.quantity,
-      0
-    );
-  };
-
-  const getSubTotal = () => {
-    return getTotalAmount();
-  };
-
-  const getSalesTax = () => {
-    const taxRate = 0.05; // 5% sales tax
-    return getSubTotal() * taxRate;
-  };
-
-  const getGrandTotal = () => {
-    return getSubTotal() + getSalesTax();
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900 text-black">
-      <div className="bg-white p-6 max-w-lg w-full rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-4">
-          Your Cart ({cart.length} items)
-        </h1>
+    <div className="flex flex-col min-h-screen">
+      <div className="bg-gray-100 border-b p-4 flex justify-between items-center">
+        <Sheet>
+          <SheetTrigger asChild>
+            <button className="flex items-center">
+              <Menu className="h-6 w-6" />
+              <span className="ml-2">Menu</span>
+            </button>
+          </SheetTrigger>
+        </Sheet>
 
-        <ul className="mb-4">
-          {cart.map((product) => (
-            <li
-              key={product.id}
-              className="flex justify-between items-center border-b pb-4 mb-4"
-            >
-              <span>{product.name}</span>
-              <span>${product.price.toFixed(2)}</span>
-              <div className="flex items-center">
-                <button
-                  onClick={() => decreaseQuantity(product.id)}
-                  className="px-2"
-                >
-                  <span className="font-bold">-</span>
-                </button>
-                <span className="mx-2">{product.quantity}</span>
-                <button
-                  onClick={() => increaseQuantity(product.id)}
-                  className="px-2"
-                >
-                  <span className="font-bold">+</span>
-                </button>
-              </div>
+        <Sheet>
+          <SheetTrigger asChild>
+            <button className="flex items-center" onClick={handleCartOpen}>
+              <ShoppingCart className="h-6 w-6" />
+            </button>
+          </SheetTrigger>
+          <SheetContent position={"bottom" as "bottom"}>
+            <div className="p-4 text-center">
+              <ShoppingCart className="h-12 w-12 mx-auto mb-4" />
+              <p className="text-lg font-semibold">Your Cart is Empty</p>
               <button
-                onClick={() => removeProduct(product.id)}
-                className="bg-red-600 text-white px-2 py-1 rounded"
+                className="btn mt-4 bg-slate-900 rounded-md px-4 p-2 text-white"
+                onClick={handleReturnToShop}
               >
-                Remove
+                Return to Shop
               </button>
-            </li>
-          ))}
-        </ul>
-        <div className="text-right">
-          <div>Subtotal: ${getSubTotal().toFixed(2)}</div>
-          <div>Sales Tax (5%): ${getSalesTax().toFixed(2)}</div>
-          <div className="font-bold text-lg">
-            Grand Total: ${getGrandTotal().toFixed(2)}
-          </div>
-        </div>
-        <button className="bg-slate-900 text-white w-full py-2 mt-4 rounded hover:bg-slate-800">
-          Checkout
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+
+      <div className="flex-grow bg-slate-900">
+        <h1 className="text-white text-center text-3xl font-bold p-4">
+          Product Page
+        </h1>
+      </div>
+
+      <div className="flex justify-around bg-gray-100 py-2 border-t">
+        <button className="flex flex-col items-center">
+          <Store className="h-6 w-6" />
+          <span className="text-xs">Shop</span>
         </button>
+
+        <button className="flex flex-col items-center">
+          <Heart className="h-6 w-6" />
+          <span className="text-xs">Wishlist</span>
+        </button>
+
+        <Sheet>
+          <SheetTrigger asChild>
+            <button
+              className="flex flex-col items-center"
+              onClick={handleCartOpen}
+            >
+              <ShoppingCart className="h-6 w-6" />
+              <span className="text-xs">Cart</span>
+            </button>
+          </SheetTrigger>
+          <SheetContent position="bottom">
+            <div className="p-4 text-center">
+              <ShoppingCart className="h-12 w-12 mx-auto mb-4" />
+              <p className="text-lg font-semibold">Your Cart is Empty</p>
+              <button
+                className="btn mt-4 bg-slate-900 px-4 p-2 rounded-md text-white"
+                onClick={handleReturnToShop}
+              >
+                Return to Shop
+              </button>
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </div>
   );
-}
+};
+
+export default Page;
