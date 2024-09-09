@@ -182,7 +182,7 @@ const ProductPage = () => {
           </SheetContent>
         </Sheet>
       </div>
-      <div className="flex-grow">
+      {/* <div className="flex-grow">
         <div
           id="drawer-example"
           className="fixed top-2 left-0 z-40 mt-12 h-screen p-2 bg-white dark:bg-gray-800"
@@ -245,7 +245,7 @@ const ProductPage = () => {
                     htmlFor="cat-1"
                     className="text-gray-600 ml-3 cusror-pointer"
                   >
-                    Watch
+                    Sofa
                   </label>
                   <div className="ml-auto text-gray-600 text-sm">(15)</div>
                 </div>
@@ -449,48 +449,75 @@ const ProductPage = () => {
             </a>
           </div>
         </div>
-      </div>
-      {/* <div className="justify-between flex gap-4 items-start mx-4 py-12">
-        <div className="w-60 h-80 bg-gray-50 p-3 flex flex-col gap-1">
-          <img
-            src="https://cdn.pixabay.com/photo/2013/07/13/14/07/apparel-162180_960_720.png"
-            alt="Long Chair"
-            className="h-48 object-cover bg-black rounded-lg"
-          />
-          <div className="flex flex-col gap-4 mt-2">
-            <div className="flex flex-row justify-between">
-              <div className="flex flex-col">
-                <span className="text-xl font-bold">Blue T-shirt</span>
-                <p className="text-xs text-gray-700">ID: 23432252</p>
-              </div>
-              <span className="font-bold text-red-600">$25.99</span>
+      </div> */}
+      <div className="flex-grow">
+        <div className="container grid grid-cols-2 gap-6 mt-12 ml-auto">
+          <div>
+            <img src="/images/product1.jpg" alt="product1" className="w-full" />
+            <div className="grid grid-cols-5 gap-4 mt-4">
+              <img
+                src="/images/product2.jpg"
+                alt="product2"
+                className="w-full cursor-pointer border border-primary"
+              />
+              <img
+                src="/images/product3.jpg"
+                alt="product3"
+                className="w-full cursor-pointer border"
+              />
+              <img
+                src="/images/product4.jpg"
+                alt="product4"
+                className="w-full cursor-pointer border"
+              />
+              <img
+                src="/images/product5.jpg"
+                alt="product5"
+                className="w-full cursor-pointer border"
+              />
+              <img
+                src="/images/product6.jpg"
+                alt="product6"
+                className="w-full cursor-pointer border"
+              />
             </div>
-            <button
-              className="hover:bg-sky-700 text-gray-50 bg-sky-800 p-2 rounded-md"
-              onClick={() =>
-                handleAddToCart({
-                  id: "23432252",
-                  name: "Blue T-shirt",
-                  price: 25.99,
-                })
-              }
-            >
-              Add to cart
-            </button>
+          </div>
+
+          <div>
+            <h2 className="text-3xl font-medium uppercase mb-2">
+              Italian L Shape Sofa
+            </h2>
+            <div className="flex items-center mb-4">
+              <div className="flex gap-1 text-sm text-yellow-400">
+                <span>
+                  <i className="fa-solid fa-star"></i>
+                </span>
+                <span>
+                  <i className="fa-solid fa-star"></i>
+                </span>
+                <span>
+                  <i className="fa-solid fa-star"></i>
+                </span>
+                <span>
+                  <i className="fa-solid fa-star"></i>
+                </span>
+                <span>
+                  <i className="fa-solid fa-star"></i>
+                </span>
+              </div>
+              <div className="text-xs text-gray-500 ml-3">(150 Reviews)</div>
+            </div>
+
+            <div className="flex items-baseline mb-1 space-x-2 mt-4">
+              <p className="text-xl text-primary font-semibold">$45.00</p>
+              <p className="text-base text-gray-400 line-through">$55.00</p>
+            </div>
+            <p className="mt-4 text-gray-600">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit...
+            </p>
           </div>
         </div>
-      </div> */}
-      {/* <div className="text-center md:hidden">
-        <button
-          className="text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 block md:hidden"
-          type="button"
-          data-drawer-target="drawer-example"
-          data-drawer-show="drawer-example"
-          aria-controls="drawer-example"
-        >
-          <IonIcon name="grid-outline" />
-        </button>
-      </div> */}
+      </div>
     </div>
   );
 };
